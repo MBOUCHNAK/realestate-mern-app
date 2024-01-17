@@ -6,7 +6,10 @@ updateUserSuccess,
 updateUserFailure,
 deleteUserStart,
 deleteUserSuccess,
-deleteUserFailure
+deleteUserFailure,
+signOutUserStart,
+signOutUserFailure,
+signOutUserSuccess
 } from '../redux/user/userSlice';
 
 import { useEffect, useRef } from 'react';
@@ -106,6 +109,22 @@ const handleDeleteUser = async () => {
     dispatch(deleteUserFailure(error.message))
   }
 }
+
+const handleSignOut = async () => {
+  try {
+    dispatch(signOutUserStart())
+    const res = await fetch('/api/auth/signout');
+    const data = await res.json();
+
+    if (data.success === false) {
+      dispatch(signOutUserFailure(data.message))
+      return;
+    }
+    dispatch(signOutUserSuccess(data))
+  } catch (error) {
+    dispatch(signOutUserFailure(error.message))
+  }
+}
             return (
               <div className="p-3 max-w-lg mx-auto">
                 <h1 className="text-3xl font-semiblod text-center my-7">
@@ -180,7 +199,7 @@ const handleDeleteUser = async () => {
                   <span onClick={handleDeleteUser} className="text-red-700 cursor-pointer">
                     Delete account
                   </span>
-                  <span className="text-red-700 cursor-pointer">Sign Out</span>
+                  <span onClick={handleSignOut} className="text-red-700 cursor-pointer">Sign Out</span>
                 </div>
                 <p className='text-red-700 mt-5'>{error ? error : ''}</p>
                 <p className='text-green-700 mt-5'>{updateSuccess ? 'Profile successfully updated' : ''}</p>
