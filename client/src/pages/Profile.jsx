@@ -1,5 +1,6 @@
 
 import { useSelector, useDispatch } from 'react-redux';
+import {Link} from 'react-router-dom'
 import {
 updateUserStart,
 updateUserSuccess,
@@ -12,7 +13,7 @@ signOutUserFailure,
 signOutUserSuccess
 } from '../redux/user/userSlice';
 
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {useState } from 'react';
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage'
 import { app } from '../firebase'
@@ -194,6 +195,19 @@ const handleSignOut = async () => {
                   >
                     {loading ? 'Loading...': 'Update'}
                   </button>
+<Link
+to={"/create-listing"}
+className='
+bg-green-700
+text-white
+p-3
+rounded-lg
+uppercase
+text-center
+hover:opacity-95'
+>
+  Create Listing
+</Link>
                 </form>
                 <div className="flex justify-between gap-4 mt-5">
                   <span onClick={handleDeleteUser} className="text-red-700 cursor-pointer">
